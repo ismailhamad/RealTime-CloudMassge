@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "2900170522",
-    "firebase_url": "https://ismail-21e65-default-rtdb.firebaseio.com",
-    "project_id": "ismail-21e65",
-    "storage_bucket": "ismail-21e65.appspot.com"
+    "project_number": "20273133742",
+    "firebase_url": "https://libaray-3503f-default-rtdb.firebaseio.com",
+    "project_id": "libaray-3503f",
+    "storage_bucket": "libaray-3503f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:2900170522:android:3e641aad077df4b6debea3",
+        "mobilesdk_app_id": "1:20273133742:android:e741eff7c1b54982f6953f",
         "android_client_info": {
           "package_name": "com.example.realtimedatabase_hw"
         }
       },
       "oauth_client": [
         {
-          "client_id": "2900170522-e8c0rlph8o77tblk8rdsmsgc7kq8he7q.apps.googleusercontent.com",
+          "client_id": "20273133742-absqfo0dttfqih0135e6mljk6asak2kk.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCpEbw_z5YDI9ny1xLFfioP0A1Xq4a19iE"
+          "current_key": "AIzaSyA9Loezmg3DaF5gVxTeZ8SnDvbmmP9hmVw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "2900170522-e8c0rlph8o77tblk8rdsmsgc7kq8he7q.apps.googleusercontent.com",
+              "client_id": "20273133742-absqfo0dttfqih0135e6mljk6asak2kk.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
