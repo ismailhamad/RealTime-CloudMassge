@@ -95,11 +95,14 @@
         android:id="@+id/ratingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="86dp"
         android:backgroundTint="#FFC107"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout5"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout5"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout5" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout7" />
 
     <Button
         android:id="@+id/ButAdd"
@@ -107,8 +110,8 @@
         android:layout_height="58dp"
         android:layout_marginTop="10dp"
         android:backgroundTint="#FFC107"
-        android:text="add book"
 
+        android:text="add book"
         app:layout_constraintEnd_toEndOf="@+id/ratingBar"
         app:layout_constraintStart_toStartOf="@+id/ratingBar"
         app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
@@ -116,7 +119,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout5"
         android:layout_width="351dp"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="@+id/textInputPrice"
         app:layout_constraintStart_toStartOf="@+id/textInputPrice"
@@ -125,10 +128,26 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/upload"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:drawableRight="@drawable/ic_baseline_cloud_upload_24"
             android:hint="Upload Book Cover" />
 
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout7"
+        android:layout_width="351dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout5"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout5"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout5">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/videoo"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:hint="hint" />
     </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

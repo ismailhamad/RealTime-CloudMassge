@@ -1,20 +1,30 @@
 package com.example.realtimedatabase_hw.ui
 
 import android.content.Intent
+import android.media.ThumbnailUtils
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.realtimedatabase_hw.adapter.BookAdapter
 import com.example.realtimedatabase_hw.R
 import com.example.realtimedatabase_hw.model.Book
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.ui.PlayerView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.maxkeppeler.sheets.options.Option
+import com.maxkeppeler.sheets.options.OptionsSheet
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.custom_dialog.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -35,6 +45,10 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+
+
+
+
     }
 
 
@@ -48,10 +62,11 @@ class MainActivity : AppCompatActivity() {
                    val id = doc.child("id").value
                    val bookName= doc.child("bookName").value
                    val image = doc.child("image").value
+                   val video = doc.child("video").value
                    val price = doc.child("price").value
                    val rate = doc.child("rate").value
                    val year = doc.child("year").value
-                    val book= Book(id.toString(),bookName.toString(),bookAuthor.toString(),year.toString(),price.toString().toInt(),rate.toString().toFloat(),image.toString())
+                    val book= Book(id.toString(),bookName.toString(),bookAuthor.toString(),year.toString(),price.toString().toInt(),rate.toString().toFloat(),image.toString(),video.toString())
 
                   // Toast.makeText(this@MainActivity, "${book.BookAuthor}", Toast.LENGTH_SHORT).show()
                   ArrayList.remove(book)

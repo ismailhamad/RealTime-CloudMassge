@@ -24,6 +24,7 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.maxkeppeler.sheets.options.Option
 import com.maxkeppeler.sheets.options.OptionsSheet
+import kotlinx.android.synthetic.main.activity_add_book.*
 import kotlinx.android.synthetic.main.activity_edit_book.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,6 +35,8 @@ import java.util.*
 class EditBook : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
   //  var db: FirebaseFirestore? = null
     lateinit var id:String
+    var videoUrl: Uri? = null
+
     val TAG = "E_Book"
     lateinit var database: DatabaseReference
     lateinit var date: Date
@@ -42,6 +45,7 @@ class EditBook : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     var storge: FirebaseStorage? = null
     var referance: StorageReference? = null
     lateinit var path:String
+    lateinit var path2:String
     lateinit var name:String
     lateinit var progressDialog: ProgressDialog
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,13 +61,13 @@ class EditBook : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         storge= Firebase.storage
         referance=storge!!.reference
         database = Firebase.database.reference
-
         EditBookName.append(data.BookName)
         EditAuthor.append(data.BookAuthor)
         EditYear.append(data.year.toString())
         EditPrice.append(data.price.toString())
         Upload_edit.append(data.image)
         path= data.image.toString()
+        path2 = data.video.toString()
         ratingBar2.rating=data.rate
         EditYear.setOnClickListener {
             EditYear.text!!.clear()
@@ -78,7 +82,7 @@ class EditBook : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
             val year=EditYear.text.toString()
             val price =EditPrice.text.toString()
             val rate=ratingBar2.rating
-            val Book= Book(id,name,Author,year,price.toInt(),rate,path!!)
+            val Book= Book(id,name,Author,year,price.toInt(),rate,path!!,path2)
             UpdateBook(Book)
             val i = Intent(this, MainActivity::class.java)
             startActivity(i)
@@ -107,6 +111,12 @@ class EditBook : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
             }
         }
+        video_edit.setOnClickListener {
+            video_edit.text?.clear()
+            dispatchTakevideoIntent()
+
+        }
+
     }
 
     private fun DeleteBook() {
@@ -122,12 +132,23 @@ class EditBook : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
             .addOnFailureListener {}
 
     }
+    val REQUEST_Video_CAPTURE = 1
     val REQUEST_Gallery_CAPTURE = 2
     private fun dispatchTakeGalleryIntent() {
         val takePictureIntent =
             Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         try {
             startActivityForResult(takePictureIntent, REQUEST_Gallery_CAPTURE)
+        } catch (e: ActivityNotFoundException) {
+            // display error state to the user
+        }
+    }
+
+    private fun dispatchTakevideoIntent() {
+        val takePictureIntent =
+            Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
+        try {
+            startActivityForResult(takePictureIntent, REQUEST_Video_CAPTURE)
         } catch (e: ActivityNotFoundException) {
             // display error state to the user
         }
@@ -166,27 +187,42 @@ class EditBook : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_Gallery_CAPTURE && resultCode == RESULT_OK) {
+            Upload_edit.append(data!!.data.toString())
             imageUri = data!!.data
             uploadimage1(imageUri)
 
-        } else {
-            Toast.makeText(this, "filed", Toast.LENGTH_LONG).show()
+        }
+        else if(requestCode == REQUEST_Video_CAPTURE && resultCode == RESULT_OK) {
+            video_edit.append(data!!.data.toString())
+            videoUrl = data!!.data
+            uploadimage1(videoUrl)
+
         }
 
     }
 
     fun uploadimage1(uri: Uri?) {
         progressDialog.show()
-        referance!!.child("book/"+ UUID.randomUUID().toString()).putFile(uri!!).addOnSuccessListener { taskSnapshot ->
-            taskSnapshot.storage.downloadUrl.addOnSuccessListener {uri ->
-                path=uri.toString()
-                progressDialog.dismiss()
-                Upload_edit.text!!.append(path)
-            }
-        }.addOnFailureListener {exception ->
-            Toast.makeText(this,"filed", Toast.LENGTH_LONG).show()
+        if (videoUrl==uri){
+            referance!!.child("book/"+ UUID.randomUUID().toString()).putFile(uri!!).addOnSuccessListener { taskSnapshot ->
+                taskSnapshot.storage.downloadUrl.addOnSuccessListener {uri ->
+                    path2=uri.toString()
+                    progressDialog.dismiss()
+                }
+            }.addOnFailureListener {exception ->
 
+            }
+        }else{
+            referance!!.child("book/"+ UUID.randomUUID().toString()).putFile(uri!!).addOnSuccessListener { taskSnapshot ->
+                taskSnapshot.storage.downloadUrl.addOnSuccessListener {uri ->
+                    path=uri.toString()
+                    progressDialog.dismiss()
+                }
+            }.addOnFailureListener {exception ->
+
+            }
         }
+
     }
 
     private  fun sendNotification(notification: PushNotification)= CoroutineScope(Dispatchers.IO).launch {

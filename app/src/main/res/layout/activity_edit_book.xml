@@ -6,6 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".ui.EditBook">
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutvideo"
+        android:layout_width="351dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout6"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout6"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/video_edit"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:drawableRight="@drawable/ic_baseline_cloud_upload_24"
+            android:hint="Upload video"
+            android:lines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -25,7 +43,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,18 +113,18 @@
         android:id="@+id/ratingBar2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="#FFC107"
+        android:layout_marginTop="8dp"
 
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout6"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout6"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout6" />
+        android:backgroundTint="#FFC107"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayoutvideo"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayoutvideo"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutvideo" />
 
     <Button
         android:id="@+id/EdiT"
         android:layout_width="278dp"
         android:layout_height="54dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="3dp"
         android:backgroundTint="#FFC107"
         android:text="Edit"
         app:layout_constraintEnd_toEndOf="@+id/ratingBar2"
@@ -117,17 +135,18 @@
         android:id="@+id/Delete"
         android:layout_width="283dp"
         android:layout_height="57dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="4dp"
         android:backgroundTint="#F44336"
         android:text="Delete"
         app:layout_constraintEnd_toEndOf="@+id/EdiT"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="@+id/EdiT"
         app:layout_constraintTop_toBottomOf="@+id/EdiT" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout6"
         android:layout_width="351dp"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout4"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout4"
@@ -136,7 +155,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/Upload_edit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:drawableRight="@drawable/ic_baseline_cloud_upload_24"
             android:hint="Upload Book Cover"
             android:lines="1" />

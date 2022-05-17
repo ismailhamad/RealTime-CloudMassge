@@ -36,6 +36,7 @@ import java.util.*
 
 class AddBook : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     val TAG = "E_Book"
+    var videoUrl: Uri? = null
     lateinit var database: DatabaseReference
    lateinit var date: String
     companion object {
@@ -45,6 +46,7 @@ class AddBook : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     var storge: FirebaseStorage? = null
     var referance: StorageReference? = null
     lateinit var path:String
+    lateinit var path2:String
     lateinit var progressDialog: ProgressDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +86,9 @@ class AddBook : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
             }
         }
+        videoo.setOnClickListener {
+            dispatchTakeVideoIntent()
+        }
 
 
         ButAdd.setOnClickListener {
@@ -95,7 +100,7 @@ class AddBook : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
             val rate = ratingBar.rating
 
             val Book =
-                Book(UUID.randomUUID().toString(), Bookname, Author, date, Price.toInt(),rate,path.toString())
+                Book(UUID.randomUUID().toString(), Bookname, Author, date, Price.toInt(),rate,path,path2)
               AddBoook(Book)
 //
             val i = Intent(this, MainActivity::class.java)
@@ -108,11 +113,22 @@ class AddBook : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
     val REQUEST_IMAGE_CAPTURE = 1
     val REQUEST_Gallery_CAPTURE = 2
+    val REQUEST_Video_CAPTURE = 3
     private fun dispatchTakeGalleryIntent() {
         val takePictureIntent =
             Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         try {
             startActivityForResult(takePictureIntent, REQUEST_Gallery_CAPTURE)
+        } catch (e: ActivityNotFoundException) {
+            // display error state to the user
+        }
+    }
+
+    private fun dispatchTakeVideoIntent() {
+        val takePictureIntent =
+            Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
+        try {
+            startActivityForResult(takePictureIntent, REQUEST_Video_CAPTURE)
         } catch (e: ActivityNotFoundException) {
             // display error state to the user
         }
@@ -146,11 +162,15 @@ class AddBook : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_Gallery_CAPTURE && resultCode == RESULT_OK) {
-            upload.append(data!!.data.toString())
-            imageUri = data.data
+           upload.append(data!!.data.toString())
+            imageUri = data!!.data
             uploadimage1(imageUri)
 
-        } else {
+        }
+         else if(requestCode == REQUEST_Video_CAPTURE && resultCode == RESULT_OK) {
+            videoo.append(data!!.data.toString())
+            videoUrl = data!!.data
+            uploadimage1(videoUrl)
 
         }
 
@@ -158,14 +178,26 @@ class AddBook : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
     fun uploadimage1(uri: Uri?) {
         progressDialog.show()
-        referance!!.child("book/"+ UUID.randomUUID().toString()).putFile(uri!!).addOnSuccessListener { taskSnapshot ->
-            taskSnapshot.storage.downloadUrl.addOnSuccessListener {uri ->
-                path=uri.toString()
-                progressDialog.dismiss()
-            }
-        }.addOnFailureListener {exception ->
+  if (videoUrl==uri){
+            referance!!.child("book/"+ UUID.randomUUID().toString()).putFile(uri!!).addOnSuccessListener { taskSnapshot ->
+                taskSnapshot.storage.downloadUrl.addOnSuccessListener {uri ->
+                    path2=uri.toString()
+                    progressDialog.dismiss()
+                }
+            }.addOnFailureListener {exception ->
 
+            }
+        }else{
+            referance!!.child("book/"+ UUID.randomUUID().toString()).putFile(uri!!).addOnSuccessListener { taskSnapshot ->
+                taskSnapshot.storage.downloadUrl.addOnSuccessListener {uri ->
+                    path=uri.toString()
+                    progressDialog.dismiss()
+                }
+            }.addOnFailureListener {exception ->
+
+            }
         }
+
     }
 
 

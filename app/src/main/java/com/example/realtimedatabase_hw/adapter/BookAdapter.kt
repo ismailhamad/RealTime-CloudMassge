@@ -1,15 +1,23 @@
 package com.example.realtimedatabase_hw.adapter
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.realtimedatabase_hw.R
 import com.example.realtimedatabase_hw.model.Book
 import com.example.realtimedatabase_hw.ui.EditBook
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.ui.PlayerView
+import com.maxkeppeler.sheets.options.Option
+import com.maxkeppeler.sheets.options.OptionsSheet
 import kotlinx.android.synthetic.main.custom_item.view.*
 
 class BookAdapter(var activity: Activity, var data: ArrayList<Book>) :
@@ -22,6 +30,7 @@ class BookAdapter(var activity: Activity, var data: ArrayList<Book>) :
         var price=item.price
         var butEdit=item.button
         var image=item.iamgee
+        var button_prview =item.button_prview
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewHolder {
@@ -44,6 +53,21 @@ class BookAdapter(var activity: Activity, var data: ArrayList<Book>) :
             activity.startActivity(i)
 
         }
+        holder.button_prview.setOnClickListener {
+            val inflater = activity.layoutInflater
+    val inflate_view = inflater.inflate(R.layout.custom_dialog,null)
+    val video = inflate_view.findViewById(R.id.videoViewTech) as PlayerView
+    val player = ExoPlayer.Builder(activity).build()
+    video.player = player
+    val mediaItem: MediaItem =
+        MediaItem.fromUri(Uri.parse("${data[position].video}"))
+    player.setMediaItem(mediaItem)
+    player.prepare()
+    val alertDialog = AlertDialog.Builder(activity)
+    alertDialog.setView(inflate_view)
+    val dialog = alertDialog.create()
+    dialog.show()
+        }
 
 
     }
@@ -51,5 +75,6 @@ class BookAdapter(var activity: Activity, var data: ArrayList<Book>) :
     override fun getItemCount(): Int {
         return data.size
     }
+
 
 }
